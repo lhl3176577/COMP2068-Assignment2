@@ -1,0 +1,32 @@
+<%- include ../partials/header.ejs %>
+
+<main class="container">
+    <h1>Edit Contact Information</h1>
+
+    <form method="post">
+        <fieldset class="form-group">
+            <label for="ContactName" class="col-sm-2">ContactName: </label>
+            <input name="ContactName" required value="<%= businesses.ContactName %>" />
+        </fieldset>
+        <fieldset class="form-group">
+            <label for="ContactNumber" class="col-sm-2">ContactNumber: </label>
+            <input name="ContactNumber"required value="<%= businesses.ContactNumber %>"/>
+        </fieldset>
+         <fieldset class="form-group">
+            <label for="EmailAddress" class="col-sm-2">EmailAddress: </label>
+            <input name="EmailAddress"required value="<%= businesses.EmailAddress %>"/>
+        </fieldset>
+        
+        
+        
+        <button type="submit" class="col-sm-offset-2 btn btn-success">Submit</button>
+        
+ <a href="/businesses/delete/<%= businesses._id %>" title="Delete" onclick="return confirm('Are you sure you want to delete this?');">  
+     <button type="button" class="btn btn-danger">Delete</button> 
+        </a> 
+
+    </form>
+</main>
+
+
+<%- include ../partials/footer.ejs %>

@@ -1,0 +1,27 @@
+<%- include ../partials/header.ejs %>
+
+<main class="container">
+    <h1>Business Contact List</h1>
+
+    <a href="/businesses/add">Add a New Contact Member</a>
+
+    <ul class="list-group">
+        
+        <% for (var i = 0; i < businesses.length; i++) {%>
+            <li class="list-group-item">
+                <a href="/businesses/<%= businesses[i]._id%>" title="Edit Contact List" >
+                    <%= businesses[i].ContactName %>
+                </a>
+                </br>
+                 <%= businesses[i].ContactNumber %>
+                 <%= businesses[i].EmailAddress %>
+              
+           
+            </li>
+
+        <% } %>
+    </ul>
+
+</main>
+
+<%- include ../partials/footer.ejs %>
