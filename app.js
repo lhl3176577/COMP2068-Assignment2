@@ -6,8 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// add mongoose
+
+// add mongoose 
 var mongoose = require('mongoose');
+
+//additions for authentication
+var session = require('express-session');
+var flash = require('connect-flash');
+var passport = require('passport');
 
 
 var routes = require('./routes/index');
@@ -15,16 +21,23 @@ var users = require('./routes/users');
 var businesses = require('./routes/businesses');
 var app = express();
 
-
+//DB setting
 // connect to mongodb with mongoose
+//mongoose.connect('mongodb://localhost/userDB');
 mongoose.connect('mongodb://mike:3176577@ds052408.mongolab.com:52408/businesscontact');
-
 // check connection
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'Connection Error: '));
 db.once('open', function(callback) {
   console.log('Connected to mongodb');
 });
+
+
+// passport configuration
+require('./config/passport')(passport);
+
+
+
 
 
 // view engine setup
@@ -39,9 +52,25 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//session setup
+app.use(session({
+  secret: 'someSecret',
+  saveUninitialized: true,
+  resave: true
+})
+);
+
+// more authentication configuration  . Part of passport configuration
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/businesses',businesses);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
