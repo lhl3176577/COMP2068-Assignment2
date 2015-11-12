@@ -12,7 +12,22 @@ router.get('/', function (req, res, next) {
     });
 });
 
+/* GET ABOUT,PEOJECT,SERVER,CONTACT page */
+router.get('/about', function(req, res, next) {
+   res.render('about',{title:"About", displayName: req.user ? req.user.displayName : ''}); 
+});
 
+router.get('/contact', function(req, res, next) {
+   res.render('contact',{title:"Contact", displayName: req.user ? req.user.displayName : ''}); 
+});
+
+router.get('/project', function(req, res, next) {
+   res.render('project',{title:"Project", displayName: req.user ? req.user.displayName : ''}); 
+});
+
+router.get('/server', function(req, res, next) {
+   res.render('server',{title:"Server", displayName: req.user ? req.user.displayName : ''}); 
+});
 
 /* Render Login page. */
 router.get('/login', function (req, res, next) {

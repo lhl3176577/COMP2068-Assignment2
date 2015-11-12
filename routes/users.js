@@ -105,6 +105,7 @@ router.post('/:id', requireAuth, function (req, res, next) {
 /* run delete on the selected user */
 router.get('/delete/:id', requireAuth, function (req, res, next) {
     var id = req.params.id;
+    
     User.remove({ _id: id }, function (err) {
         if (err) {
             console.log(err);

@@ -14,9 +14,12 @@
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
+  <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.10.1/bootstrap-social.css">
+  <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.10.1/bootstrap-social.min.css">
   <!-- Custom CSS -->
   <link rel='stylesheet' href='/stylesheets/style.css' />
+  
+
 </head>
 
 <body>
@@ -35,8 +38,51 @@
         <a class="navbar-brand" href="/">Business Contact List</a>
       </div> <!-- navbar-header -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-     
-           <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav">
+                <li><a href="/"><i class="fa fa-home fa-2x"></i>HOME</a></li>
+                <li><a href="/about"><i class="fa fa-building fa-2x"></i>About Me</a></li>
+                <li><a href="/server"><i class="fa fa-newspaper-o fa-2x"></i>Services</a></li>
+                <li><a href="/project"><i class="fa fa-info fa-2x"></i>Projects</a></li>
+                <li><a href="/contact "><i class="fa fa-comments fa-2x"></i>Contact Us</a></li>
+            </ul>
+            
+              <ul class="nav navbar-nav navbar-right">
+          <% if(title == "Home" ) { %>
+            <li class="active">
+          <% } else { %>
+          <li>
+            <% } %>
+            <a href="/">Home</a></li>
+          <li role="separator" class="divider"></li>
+          <% if (displayName) { %>
+            <% if(title == "Users" ) { %>
+            <li class="active">
+              <% } else { %>
+            <li>
+              <% } %>
+              <a href="/users">Users</a></li>
+              <li>  <a href="/businesses">Business</a></li>
+            <li class="navbar-text">Hello,
+              <%= displayName %>
+            </li>
+            <li><a href="/logout">Logout</a></li>
+            <% } else { %>
+              <% if(title == "Register" ) { %>
+            <li class="active">
+            <% } else { %>
+            <li>
+            <% } %>
+                <a href="/register">Register</a></li>
+              <% if(title == "Login" ) { %>
+            <li class="active">
+            <% } else { %>
+            <li>
+            <% } %>
+                <a href="/login">Login</a></li>
+              <% } %>
+        </ul> <!-- nav navbar-nav navbar-right -->
+          
+ <!--          <ul class="nav navbar-nav navbar-right">
          
           <li>
            
@@ -51,8 +97,7 @@
            
         </ul> <!-- nav navbar-nav navbar-right -->
           
-        
-        
+           
         
         
         

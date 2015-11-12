@@ -1,12 +1,24 @@
 var express = require('express');
+var passport = require('passport');
 var router = express.Router();
 
 //db references 
 var mongoose = require('mongoose');
 var Business = require('../models/business.js');
+var User = require('../models/user');
+
+function requireAuth(req, res, next){
+
+  // check if the user is logged in
+  if(!req.isAuthenticated()){
+    res.redirect('/login');
+  }
+  next();
+}
+
 
 // GET - show main business page
-router.get('/', function (req, res, next) {
+router.get('/',requireAuth, function (req, res, next) {
 
     // use the business model to query the business collection 
     Business.find(function (err, businesses) {
@@ -19,7 +31,8 @@ router.get('/', function (req, res, next) {
         {
             res.render('businesses/index', {
                 title: 'Business Contact List',
-                businesses:businesses
+                businesses:businesses,
+                displayName: req.user ? req.user.displayName : ''
             });
         }
        
@@ -28,14 +41,15 @@ router.get('/', function (req, res, next) {
   
 });
 // GET add page - show the blank form
-router.get('/add', function(req, res, next) {
+router.get('/add',requireAuth, function(req, res, next) {
     res.render('businesses/add', {
-        title: 'Add a New Business Contact List'
+        title: 'Add a New Business Contact List',
+        displayName: req.user ? req.user.displayName : ''
     });
 });
 
 // POST add page - save the new business contact member.
-router.post('/add', function(req, res, next) {
+router.post('/add',requireAuth, function(req, res, next) {
 
     Business.create( {
          ContactName:req.body.ContactName,
@@ -55,11 +69,11 @@ router.post('/add', function(req, res, next) {
 
 
 // GET edit page - show the current business contact information in the form
-router.get('/:id', function(req, res, next) {
+router.get('/:id',requireAuth, function(req, res, next) {
 
     var id = req.params.id;
 
-    Business.findById(id, function(err, Business) {
+    Business.findById(id, function(err, businesses) {
         if (err) {
             console.log(err);
             res.end(err);
@@ -68,14 +82,15 @@ router.get('/:id', function(req, res, next) {
             //show the edit view
             res.render('businesses/edit', {
                 title: 'Business Contact List Information Details',
-                businesses:Business
+                businesses:businesses,
+                   displayName: req.user ? req.user.displayName : ''
             });
         }
     });
 });
-
+/*
 // POST edit page - update the selected Business Contact List
-router.post('/:id', function(req, res, next) {
+router.post('/:id',requireAuth, function(req, res, next) {
 
     // grab the id from the url parameter
     var id = req.params.id;
@@ -99,15 +114,17 @@ router.post('/:id', function(req, res, next) {
         }
     });
 });
-//
-// GET delete business contact list
-router.get('/delete/:id', function(req, res, next) {
-
-    // get the id from the url
+*/
+/* process the edit form submission */
+router.post('/:id', requireAuth, function (req, res, next) {
     var id = req.params.id;
-
-    // use the model and delete this record
-    Business.remove( { _id: id }, function(err) {
+    var business = new Business(req.body);
+  //  business.password = business.generateHash(business.password);
+    business._id = id;
+  //  business.updated = Date.now();
+    
+    // use mongoose to do the update
+    User.update({ _id: id }, business, function (err) {
         if (err) {
             console.log(err);
             res.end(err);
@@ -117,6 +134,31 @@ router.get('/delete/:id', function(req, res, next) {
         }
     });
 });
+
+
+
+
+
+
+// GET delete business contact list
+router.get('/delete/:id', requireAuth, function(req, res, next) {
+
+    // get the id from the url
+    var id = req.params.id;
+
+    // use the model and delete this record
+    Business.remove({ _id: id }, function(err) {
+        if (err) {
+            console.log(err);
+            res.end(err);
+        }
+        else {
+            res.redirect('/businesses');
+        }
+    });
+});
+
+
 
 // make this public
 module.exports = router;
