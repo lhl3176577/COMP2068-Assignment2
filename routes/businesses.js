@@ -124,7 +124,7 @@ router.post('/:id', requireAuth, function (req, res, next) {
   //  business.updated = Date.now();
     
     // use mongoose to do the update
-    User.update({ _id: id }, business, function (err) {
+    Business.update({ _id: id }, business, function (err) {
         if (err) {
             console.log(err);
             res.end(err);
