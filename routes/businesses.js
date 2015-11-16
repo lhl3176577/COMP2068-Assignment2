@@ -37,7 +37,7 @@ router.get('/',requireAuth, function (req, res, next) {
         }
        
 
-    })
+    }).sort( { ContactName: 1 } )
   
 });
 // GET add page - show the blank form
