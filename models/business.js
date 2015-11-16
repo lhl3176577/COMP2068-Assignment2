@@ -1,3 +1,8 @@
+/*file name: Web_assignment2
+Author Name: HongliangLiu(200255269)
+website Name:https://hongliangliuassignment2.herokuapp.com.
+file information please read readme file.
+*/ 
 var mongoose = require('mongoose');
 
 // DEFINE THE BUSINESS CONTACT INFORMATION SCHEMA

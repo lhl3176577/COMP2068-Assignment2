@@ -1,4 +1,9 @@
-// add a reference to the passport strategy
+/*file name: Web_assignment2
+Author Name: HongliangLiu(200255269)
+website Name:https://hongliangliuassignment2.herokuapp.com.
+file information please read readme file.
+*/ 
+//add a reference to the passport strategy
 var LocalStrategy = require('passport-local').Strategy;
 
 // import the User Model
